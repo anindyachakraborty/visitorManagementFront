@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Company Name
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card" *ngIf="welcomeCardVisible == true">
+      <!-- <ion-img src="/assets/shapes.svg"></ion-img> -->
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+        <ion-card-title>Welcome to the Company</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Now you can book your family visit on advance. Please fill the Personal Information and Offical Description to enable Security team to act on it.</p>
+        <div class="cardButtons"> 
+          <ion-button fill="outline" slot="end" color="danger" (click)="changeWelcomeCardVisibility(false)">Hide</ion-button> 
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-toolbar (click)="changeWelcomeCardVisibility(true)" *ngIf="welcomeCardVisible == false" color="secondary">
+      <ion-title>Show Help</ion-title>
+    </ion-toolbar>
+    <ion-segment [(ngModel)]="activityCardValue">
+      <ion-segment-button value="personal">
+        <ion-label>Personal</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="official">
+        <ion-label>Official</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <form #form="ngForm" (ngSubmit)="logForm(form)" *ngIf="activityCardValue == 'personal'">
+      <ion-item class="textFieldPersonal">
+        <ion-label>Visitor :</ion-label>
+        <ion-input type="text"></ion-input>
+        <ion-icon name="add-circle" (click)="increaseVisitor()"></ion-icon>
+        <!-- <div ngFor= "visitorNameVariable"><ion-input type="text"></ion-input></div> -->
+      </ion-item>
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-item>
+      <button ion-button type="submit" block>Add Todo</button>
+    </form>
+</ion-content>
