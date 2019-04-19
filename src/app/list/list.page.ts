@@ -1,39 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+// import { RouterModule, Routes,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
   templateUrl: 'list.page.html',
   styleUrls: ['list.page.scss']
 })
+
+@Injectable()
 export class ListPage implements OnInit {
   private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+  public items: Array<{visitorId: number, name: string, location: string, visitDate: string, description: string} > = [];
+  constructor(public http: HttpClient) {
+    this.initCallFunction();
   }
 
   ngOnInit() {
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
+
+  initCallFunction() {
+    this.http.get('http://localhost:8080/visitor/get/all').subscribe(data => {
+      console.log();
+      for (let i = 0; i < Object.keys(data).length; i++) {
+        this.items.push({
+          visitorId: data[i].visitorId,
+          name: data[i].name,
+          location: data[i].location,
+          visitDate: data[i].visitDate,
+          description: data[i].description,
+        });
+      }
+    });
+  }
+
+  deleteVisitor(visitor) {
+    this.http.get('http://localhost:8080/visitor/delete/' + visitor.visitorId).subscribe(data => {
+      const index = this.items.indexOf(visitor);
+      this.items.splice(index, 1);
+    });
+  }
+
+  editVisitor(visitor) {
+    // this.router.data(visitor);
+    console.log(visitor);
+  }
 }

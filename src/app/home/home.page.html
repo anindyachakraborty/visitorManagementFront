@@ -11,7 +11,6 @@
 
 <ion-content>
     <ion-card class="welcome-card" *ngIf="welcomeCardVisible == true">
-      <!-- <ion-img src="/assets/shapes.svg"></ion-img> -->
       <ion-card-header>
         <ion-card-subtitle>Get Started</ion-card-subtitle>
         <ion-card-title>Welcome to the Company</ion-card-title>
@@ -26,25 +25,29 @@
     <ion-toolbar (click)="changeWelcomeCardVisibility(true)" *ngIf="welcomeCardVisible == false" color="secondary">
       <ion-title>Show Help</ion-title>
     </ion-toolbar>
-    <ion-segment [(ngModel)]="activityCardValue">
-      <ion-segment-button value="personal">
-        <ion-label>Personal</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="official">
-        <ion-label>Official</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-    <form #form="ngForm" (ngSubmit)="logForm(form)" *ngIf="activityCardValue == 'personal'">
+    <div>
       <ion-item class="textFieldPersonal">
         <ion-label>Visitor :</ion-label>
-        <ion-input type="text"></ion-input>
-        <ion-icon name="add-circle" (click)="increaseVisitor()"></ion-icon>
-        <!-- <div ngFor= "visitorNameVariable"><ion-input type="text"></ion-input></div> -->
+        <ion-input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label>Description</ion-label>
-        <ion-textarea></ion-textarea>
+      <ion-item class="textAreaDescription">
+        <ion-label>Description: </ion-label>
+        <ion-textarea [(ngModel)]="description"></ion-textarea>
       </ion-item>
-      <button ion-button type="submit" block>Add Todo</button>
-    </form>
+      <ion-item class="datePickerPersonal">
+        <ion-label>Visit Date: </ion-label>
+        <ion-datetime display-format="YYYY-MM-DD" picker-format="DD MMMM YYYY" [min]="today" [(ngModel)]="visitDate"></ion-datetime>
+      </ion-item>
+      <ion-item class="textFieldPersonal">
+        <ion-label>Location: </ion-label>
+        <ion-select placeholder="Select Location" okText="Yaas" cancelText="Nope" [(ngModel)]="location">
+          <ion-select-option value="Hyderabad">Hyderabad</ion-select-option>
+          <ion-select-option value="Pune">Pune</ion-select-option>
+          <ion-select-option value="Mangalore">Mangalore</ion-select-option>
+          <ion-select-option value="Bangalore">Bangalore</ion-select-option>
+          <ion-select-option value="Mumbai">Mumbai</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button class="saveButton" (click)="saveVisitorDetails()">Save Details</ion-button>
+    </div>
 </ion-content>

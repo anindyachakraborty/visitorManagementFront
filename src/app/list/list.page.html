@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Your Application Status
+      Visitor Details
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,10 +12,15 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
+      <ion-icon name="create" slot="start" color="primary" (click)="editVisitor(item)"></ion-icon>
+      <ion-icon name="remove-circle" slot="end" color="danger" (click)="deleteVisitor(item)"></ion-icon>
+      <div style="color: royalblue;margin-right: 1vh">{{item.name}}</div> -
+      <div class="itemLocation">
+        {{item.location}}
+      </div>
+      <div style="margin-left: 1vh">-</div>
+      <div class="itemDate">
+        {{item.date}}
       </div>
     </ion-item>
   </ion-list>

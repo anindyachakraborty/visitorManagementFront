@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Visitor } from '@angular/compiler/src/render3/r3_ast';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -6,22 +8,34 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  private welcomeCardVisible: boolean = true;
-  private activityCardValue: String = "personal";
-  private visitorNameVariable: number = 0;
+  private welcomeCardVisible: Boolean = true;
+  private name: String;
+  private description: String;
+  private visitDate: String;
+  private location: String;
+  private today = new Date().toJSON().split('T')[0];
+  constructor(public client: HttpClient) {
+  }
 
-  changeWelcomeCardVisibility(visibilityVariable: boolean){
+  changeWelcomeCardVisibility(visibilityVariable: boolean) {
     this.welcomeCardVisible = visibilityVariable;
   }
 
-  segmentChanged(ev: any) {
-    this.activityCardValue = ev.detail.value;
+  saveVisitorDetails() {
+    const visitor = {
+      name  : this.name,
+      description : this.description,
+      visitDate : this.visitDate.split('T')[0],
+      location : this.location
+    };
+    console.log(visitor);
+    this.client.post('http://localhost:8080/visitor/save', visitor).subscribe(data => {
+      // alert("Saved with Id: "+ data.id);
+    });
   }
 
-  increaseVisitor(){
-    if(this.visitorNameVariable<=5){
-      this.visitorNameVariable+=1;
-    }
-    console.log(this.visitorNameVariable);
-  }
+  // segmentChanged(ev: any) {
+  //   this.activityCardValue = ev.detail.value;
+  // }
+
 }
